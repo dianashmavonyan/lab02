@@ -1,0 +1,67 @@
+№1 на C++:
+
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+struct Point {
+    double x, y;
+};
+
+struct Line {
+    double a, b, c;
+};
+
+double distancePointToLine(const Point& point, const Line& line) {
+    return abs(line.a * point.x + line.b * point.y + line.c) / sqrt(line.a * line.a + line.b * line.b);
+}
+
+Point intersectionPoint(const Line& line1, const Line& line2) {
+    double det = line1.a * line2.b - line1.b * line2.a;
+    double x = (line2.b * line1.c - line1.b * line2.c) / det;
+    double y = (line1.a * line2.c - line2.a * line1.c) / det;
+    return {x, y};
+}
+
+double distancePointToPoint(const Point& point1, const Point& point2) {
+    return sqrt((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y));
+}
+
+double angleBetweenLines(const Line& line1, const Line& line2) {
+    double dotProduct = line1.a * line2.a + line1.b * line2.b;
+    double magnitude1 = sqrt(line1.a * line1.a + line1.b * line1.b);
+    double magnitude2 = sqrt(line2.a * line2.a + line2.b * line2.b);
+    return acos(dotProduct / (magnitude1 * magnitude2)) * 180 / M_PI;
+}
+
+int main() {
+    // Случайным образом генерируем параметры прямых и координаты точки
+    srand(time(NULL));
+    Line line1 = {rand() % 10, rand() % 10, rand() % 10};
+    Line line2 = {rand() % 10, rand() % 10, rand() % 10};
+    Point point = {rand() % 10, rand() % 10};
+
+    // Вычисляем расстояния от точки до прямых
+    double distance1 = distancePointToLine(point, line1);
+    double distance2 = distancePointToLine(point, line2);
+
+    // Находим точку пересечения прямых
+    Point intersection = intersectionPoint(line1, line2);
+
+    // Вычисляем расстояние от заданной точки до точки пересечения прямых
+    double distanceToIntersection = distancePointToPoint(point, intersection);
+
+    // Вычисляем угол между прямыми
+    double angle = angleBetweenLines(line1, line2);
+
+    // Выводим результаты
+    cout << "Расстояние от точки до первой прямой: " << distance1 << endl;
+    cout << "Расстояние от точки до второй прямой: " << distance2 << endl;
+    cout << "Точка пересечения прямых: (" << intersection.x << ", " << intersection.y << ")" << endl;
+    cout << "Расстояние от заданной точки до точки пересечения прямых: " << distanceToIntersection << endl;
+    cout << "Угол между прямыми: " << angle << " градусов" << endl;
+
+    return 0;
+}
