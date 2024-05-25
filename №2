@@ -1,0 +1,67 @@
+№2 на С++:
+
+
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    // Определяем символы для параметров плоскостей и координат точки
+    double a1, b1, c1, d1, a2, b2, c2, d2, x, y, z;
+    
+    // Случайным образом генерируем параметры плоскостей и координаты точки
+    srand(time(0));
+    a1 = (double)rand() / RAND_MAX;
+    b1 = (double)rand() / RAND_MAX;
+    c1 = (double)rand() / RAND_MAX;
+    d1 = (double)rand() / RAND_MAX;
+    a2 = (double)rand() / RAND_MAX;
+    b2 = (double)rand() / RAND_MAX;
+    c2 = (double)rand() / RAND_MAX;
+    d2 = (double)rand() / RAND_MAX;
+    x = (double)rand() / RAND_MAX;
+    y = (double)rand() / RAND_MAX;
+    z = (double)rand() / RAND_MAX;
+    
+    // Вычисляем угол между плоскостями
+    double dot_product = a1 * a2 + b1 * b2 + c1 * c2;
+    double magnitude1 = sqrt(a1 * a1 + b1 * b1 + c1 * c1);
+    double magnitude2 = sqrt(a2 * a2 + b2 * b2 + c2 * c2);
+    double angle = acos(dot_product / (magnitude1 * magnitude2)) * 180 / M_PI;
+    
+    // Проверяем параллельность плоскостей
+    bool parallel = abs(dot_product) < 1e-10;
+    
+    // Вычисляем расстояние между плоскостями (если они параллельны)
+    double distance_between = parallel ? -1 : abs(d1 - d2) / magnitude1;
+    
+    // Вычисляем расстояния от точки до каждой плоскости
+    double distance1 = abs(a1 * x + b1 * y + c1 * z + d1) / magnitude1;
+    double distance2 = abs(a2 * x + b2 * y + c2 * z + d2) / magnitude2;
+    
+    // Вычисляем параметры прямой пересечения плоскостей (если они пересекаются)
+    vector<double> intersection_line;
+    if (!parallel) {
+        // Решаем систему уравнений для параметров прямой
+        double t = (-(a1 * x + b1 * y + c1 * z + d1) * (a2 * b1 - a1 * b2) - (a2 * x + b2 * y + c2 * z + d2) * (a1 * b2 - a2 * b1)) / (a1 * a2 * b1 - a1 * a2 * b2);
+        intersection_line.push_back(x + a1 * t);
+        intersection_line.push_back(y + b1 * t);
+        intersection_line.push_back(z + c1 * t);
+    }
+    
+    // Выводим результаты
+    cout << "Угол между плоскостями: " << angle << " градусов" << endl;
+    cout << "Параллельны ли плоскости: " << (parallel ? "Да" : "Нет") << endl;
+    cout << "Расстояние между плоскостями: " << (parallel ? "Не применимо" : to_string(distance_between)) << endl;
+    cout << "Расстояние от точки до первой плоскости: " << distance1 << endl;
+    cout << "Расстояние от точки до второй плоскости: " << distance2 << endl;
+    cout << "Параметры прямой пересечения плоскостей: ";
+    if (parallel) {
+        cout << "Не применимо" << endl;
+    } else {
+        cout << "(" << intersection_line[0] << ", " << intersection_line[1] << ", " << intersection_line[2] << ")" << endl;
+    }
+    return 0;
+}
