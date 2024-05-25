@@ -1,0 +1,67 @@
+№3 на Python:
+
+
+import random
+import math
+
+def is_point_on_parabola(a, b, c, x, y):
+    """
+    Проверяет, принадлежит ли точка параболе.
+
+    Args:
+        a (float): Коэффициент при x^2.
+        b (float): Коэффициент при x.
+        c (float): Свободный коэффициент.
+        x (float): Координата x точки.
+        y (float): Координата y точки.
+
+    Returns:
+        bool: True, если точка принадлежит параболе, False в противном случае.
+    """
+    return y == a * x**2 + b * x + c
+
+def find_focus(a, b):
+    """
+    Находит координату фокуса параболы.
+
+    Args:
+        a (float): Коэффициент при x^2.
+        b (float): Коэффициент при x.
+
+    Returns:
+        float: Координата фокуса.
+    """
+    return -b / (4 * a)
+
+def find_distance_to_directrix(a):
+    """
+    Находит расстояние от директрисы параболы до его фокуса.
+
+    Args:
+        a (float): Коэффициент при x^2.
+
+    Returns:
+        float: Расстояние от директрисы до фокуса.
+    """
+    return 1 / (4 * a)
+
+# Генерируем случайные параметры параболы и координаты точки
+a = random.uniform(-10, 10)
+b = random.uniform(-10, 10)
+c = random.uniform(-10, 10)
+x = random.uniform(-10, 10)
+y = random.uniform(-10, 10)
+
+# Исследуем вопрос о том, принадлежит ли точка параболе
+if is_point_on_parabola(a, b, c, x, y):
+    print("Точка принадлежит параболе.")
+else:
+    print("Точка не принадлежит параболе.")
+
+# Находим координату фокуса параболы
+focus = find_focus(a, b)
+print(f"Координата фокуса: {focus}")
+
+# Находим расстояние от директрисы параболы до его фокуса
+distance_to_directrix = find_distance_to_directrix(a)
+print(f"Расстояние от директрисы до фокуса: {distance_to_directrix}»)
