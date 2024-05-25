@@ -1,0 +1,120 @@
+№4 на Python:
+
+
+import random
+import math
+
+def is_plane_intersecting_cone(A, B, C, D, E, F, G, H, I, J, K, x0, y0, z0):
+    """
+    Проверяет, пересекает ли плоскость заданный конус второго порядка.
+
+    Args:
+        A, B, C, D, E, F, G, H, I, J, K (float): Коэффициенты уравнения конуса второго порядка.
+        x0, y0, z0 (float): Координаты точки, через которую проходит плоскость.
+
+    Returns:
+        bool: True, если плоскость пересекает конус, False в противном случае.
+    """
+    # Решаем систему уравнений, чтобы найти точки пересечения плоскости и конуса
+    det = A * E * I + B * F * J + C * G * K - A * F * G - B * E * K - C * D * J
+    if det == 0:
+        return False  # Плоскость параллельна конусу
+
+    x = (E * I * x0 + F * J * y0 + G * K * z0 - E * J * z0 - F * I * y0 - G * D * x0) / det
+    y = (A * J * x0 + B * I * y0 + C * K * z0 - A * K * z0 - B * J * x0 - C * D * y0) / det
+    z = (A * F * x0 + B * E * y0 + C * D * z0 - A * D * y0 - B * F * x0 - C * H * z0) / det
+
+    # Проверяем, лежит ли точка пересечения на конусе
+    return A * x*2 + B * x * y + C * x * z + D * x + E * y*2 + F * y * z + G * y + H * z*2 + I * z + J * x * z + K == 0
+
+
+def is_line_intersecting_cone(A, B, C, D, E, F, G, H, I, J, K, x1, y1, z1, x2, y2, z2):
+    """
+    Проверяет, пересекает ли прямая заданный конус второго порядка.
+
+    Args:
+        A, B, C, D, E, F, G, H, I, J, K (float): Коэффициенты уравнения конуса второго порядка.
+        x1, y1, z1, x2, y2, z2 (float): Координаты двух точек на прямой.
+
+    Returns:
+        bool: True, если прямая пересекает конус, False в противном случае.
+    """
+    # Параметрическое уравнение прямой:
+    # x = x1 + t * (x2 - x1)
+    # y = y1 + t * (y2 - y1)
+    # z = z1 + t * (z2 - z1)
+
+    # Подставляем параметрическое уравнение прямой в уравнение конуса и решаем полученное уравнение относительно t
+    det = A * (x2 - x1)*2 + B * (x2 - x1) * (y2 - y1) + C * (x2 - x1) * (z2 - z1) + \
+          D * (x2 - x1) + E * (y2 - y1)*2 + F * (y2 - y1) * (z2 - z1) + G * (y2 - y1) + \
+          H * (z2 - z1)*2 + I * (z2 - z1) + J * (x2 - x1) * (z2 - z1) + K
+    if det == 0:
+        return False  # Прямая параллельна конусу
+
+    t = (-D * (x1 - x2) - E * (y1 - y2) - F * (z1 - z2) - G * (x1 + x2) - H * (y1 + y2) - I * (z1 + z2)) / det
+
+    # Проверяем, лежит ли точка на прямой, соответствующая найденному значению t, на конусе
+    return A * (x1 + t * (x2 - x1))*2 + B * (x1 + t * (x2 - x1)) * (y1 + t * (y2 - y1)) + C * (x1 + t * (x2 - x1)) * (z1 + t * (z2 - z1)) + \
+           D * (x1 + t * (x2 - x1)) + E * (y1 + t * (y2 - y1))*2 + F * (y1 + t * (y2 - y1)) * (z1 + t * (z2 - z1)) + G * (y1 + t * (y2 - y1)) + \
+           H * (z1 + t * (z2 - z1))*2 + I * (z1 + t * (z2 - z1)) + J * (x1 + t * (x2 - x1)) * (z1 + t * (z2 - z1)) + K == 0
+
+
+def is_point_on_cone(A, B, C, D, E, F, G, H, I, J, K, x, y, z):
+    """
+    Проверяет, принадлежит ли заданная точка конусу второго порядка.
+
+    Args:
+        A, B, C, D, E, F, G, H, I, J, K (float): Коэффициенты уравнения конуса второго порядка.
+        x, y, z (float): Координаты точки.
+
+    Returns:
+        bool: True, если точка принадлежит конусу, False в противном случае.
+    """
+    return A * x*2 + B * x * y + C * x * z + D * x + E * y*2 + F * y * z + G * y + H * z*2 + I * z + J * x * z + K == 0
+
+
+# Генерируем случайные параметры конуса второго порядка, плоскости, прямой и точки
+A = random.uniform(-10, 10)
+B = random.uniform(-10, 10)
+C = random.uniform(-10, 10)
+D = random.uniform(-10, 10)
+E = random.uniform(-10, 10)
+F = random.uniform(-10, 10)
+G = random.uniform(-10, 10)
+H = random.uniform(-10, 10)
+I = random.uniform(-10, 10)
+J = random.uniform(-10, 10)
+K = random.uniform(-10, 10)
+
+x0 = random.uniform(-10, 10)
+y0 = random.uniform(-10, 10)
+z0 = random.uniform(-10, 10)
+
+x1 = random.uniform(-10, 10)
+y1 = random.uniform(-10, 10)
+z1 = random.uniform(-10, 10)
+
+x2 = random.uniform(-10, 10)
+y2 = random.uniform(-10, 10)
+z2 = random.uniform(-10, 10)
+
+x = random.uniform(-10, 10)
+y = random.uniform(-10, 10)
+z = random.uniform(-10, 10)
+
+# Исследуем вопрос о том, пересекает ли плоскость или прямая заданный конус второго порядка
+if is_plane_intersecting_cone(A, B, C, D, E, F, G, H, I, J, K, x0, y0, z0):
+    print("Плоскость пересекает конус.")
+else:
+    print("Плоскость не пересекает конус.")
+
+if is_line_intersecting_cone(A, B, C, D, E, F, G, H, I, J, K, x1, y1, z1, x2, y2, z2):
+    print("Прямая пересекает конус.")
+else:
+    print("Прямая не пересекает конус.")
+
+# Исследуем вопрос о том, принадлежит ли заданная точка конусу второго порядка
+if is_point_on_cone(A, B, C, D, E, F, G, H, I, J, K, x, y, z):
+    print("Точка принадлежит конусу.")
+else:
+    print("Точка не принадлежит конусу.")
