@@ -64,4 +64,4 @@ print(f"Координата фокуса: {focus}")
 
 # Находим расстояние от директрисы параболы до его фокуса
 distance_to_directrix = find_distance_to_directrix(a)
-print(f"Расстояние от директрисы до фокуса: {distance_to_directrix}»)
+print(f"Расстояние от директрисы до фокуса: {distance_to_directrix}")
